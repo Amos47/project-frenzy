@@ -1,0 +1,37 @@
+<%= form_for(professor) do |f| %>
+  <% if professor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(professor.errors.count, "error") %> prohibited this professor from being saved:</h2>
+
+      <ul>
+      <% professor.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.text_field :email, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password %>
+    <%= f.text_field :password, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password_confirmation %>
+    <%= f.text_field :password_confirmation, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

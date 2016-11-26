@@ -10,6 +10,13 @@
 
   <body>
     <div class="container">
+      <div class="col-md-3 offset-md-9" style="text-align: right">
+        <% if current_student %>
+          Signed in as <%= current_student.name %> | <%= link_to "Logout", '/logout' %>
+        <% else %>
+          <%= link_to 'Login', '/login' %> | <%= link_to 'Signup', new_student_path %>
+        <% end %>
+      </div>
       <%= yield %>
     </div>
   </body>

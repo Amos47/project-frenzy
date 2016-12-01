@@ -3,9 +3,11 @@
 one:
   title: "Project 1"
   description: "My description for project 1"
+  professor: one
   publish_at: 2016-11-24 20:35:26
 
 two:
   title: "Project 2"
   description: "My description for project 1"
+  professor: one
   publish_at: 2016-11-24 20:35:26

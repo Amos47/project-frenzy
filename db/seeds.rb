@@ -5,11 +5,23 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+prof = Professor.create!(
+  name: "Dr. #{Faker::Name.name}",
+  email: "p@test.com",
+  password: "password",
+  password_confirmation: "password"
+)
+student = Student.create!(
+  name: "#{Faker::Name.name}",
+  email: "s@test.com",
+  password: "password",
+  password_confirmation: "password"
+)
 
 10.times do
   Project.create!(
     title: "#{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.noun}".titleize,
+    professor: prof,
     description: Faker::Hacker.say_something_smart,
     publish_at: Time.now.utc
   )

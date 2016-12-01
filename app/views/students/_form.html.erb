@@ -32,6 +32,10 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign Up", class: "btn btn-primary" %>
+    <% if current_student.present? %>
+      <%= f.submit "Update", class: "btn btn-primary" %>
+    <% else %>
+      <%= f.submit "Sign Up", class: "btn btn-primary" %>
+    <% end %>
   </div>
 <% end %>

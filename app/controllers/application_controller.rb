@@ -11,12 +11,23 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_professor
 
+  def current_user_profile_path
+    if current_student.present?
+      student_path(current_student)
+    elsif current_professor.present?
+      professor_path(current_professor)
+    else
+      Rails.logger.error("Current user profile path called with no user")
+      login_path
+    end
+  end
+  helper_method :current_user_profile_path
+
   def authorize
     redirect_to login_path unless current_student || current_professor
   end
 
   def authorize_professor
-    redirect_to '/' if current_student.present?
-    redirect_to login_professors_path if current_professor.nil?
+    raise ActionController::RoutingError.new('Not Found') if current_professor.nil?
   end
 end

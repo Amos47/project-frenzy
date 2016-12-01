@@ -1,6 +1,8 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: [:show, :edit, :update, :destroy]
-  before_filter :authorize, except: [:new, :create]
+  before_action :authorize, except: [:new, :create, :show]
+  before_action :authorize_professor, only: [:index]
+  before_action :authorize_professor_or_current_student, only: [:edit, :update, :destroy]
 
   # GET /students
   # GET /students.json
@@ -64,6 +66,9 @@ class StudentsController < ApplicationController
   end
 
   private
+    def authorize_professor_or_current_student
+      raise ActionController::RoutingError.new('Not Found') unless professor_or_current_student?
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_student
       @student = Student.find(params[:id])
@@ -72,5 +77,14 @@ class StudentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
       params.require(:student).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def professor_or_current_student?
+      current_professor.present? || current_student_matches_id?
+    end
+    helper_method :professor_or_current_student?
+
+    def current_student_matches_id?
+      current_student.present? && current_student.id.to_s == params[:id]
     end
 end

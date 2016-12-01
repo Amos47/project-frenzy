@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user_type = if params[:professor_login]
+    user_type = if params[:professor_login].present?
       Professor
     else
       Student
@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
       if user_type == Professor
         session[:professor_id] = user.id
       else
-        session[:student_id] = student.id
+        session[:student_id] = user.id
       end
       redirect_to '/'
     else

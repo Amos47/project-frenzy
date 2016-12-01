@@ -1,11 +1,7 @@
 class ProfessorsController < ApplicationController
   before_action :set_professor, only: [:show, :edit, :update, :destroy]
-
-  # GET /professors
-  # GET /professors.json
-  def index
-    @professors = Professor.all
-  end
+  before_action :authorize_professor, only: [:edit, :update, :destroy]
+  before_action :authorize_current_professor, only: [:edit, :update, :destroy]
 
   # GET /professors/1
   # GET /professors/1.json
@@ -38,6 +34,7 @@ class ProfessorsController < ApplicationController
     end
   end
 
+  # GET /professors/login
   def login
     @professor_login = true
     render "sessions/new"
@@ -61,6 +58,7 @@ class ProfessorsController < ApplicationController
   # DELETE /professors/1.json
   def destroy
     @professor.destroy
+    session[:professor_id] = nil
     respond_to do |format|
       format.html { redirect_to professors_url, notice: 'Professor was successfully destroyed.' }
       format.json { head :no_content }
@@ -68,6 +66,9 @@ class ProfessorsController < ApplicationController
   end
 
   private
+    def authorize_current_professor
+      raise ActionController::RoutingError('Not Found') unless params[:id] == current_professor.id
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_professor
       @professor = Professor.find(params[:id])
@@ -75,6 +76,6 @@ class ProfessorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def professor_params
-      params.require(:professor).permit(:name, :email, :password_digest)
+      params.require(:professor).permit(:name, :email, :password, :password_confirmation)
     end
 end

@@ -1,5 +1,10 @@
 <h1>Student Sign Up!</h1>
 
-<%= render 'form', student: @student %>
-
-<%= link_to 'or login', '/login' %>
+<div class="row">
+  <%= render 'form', student: @student %>
+</div>
+<br>
+<div class="row">
+  <%= link_to 'Login', '/login' %>
+  | <%= link_to 'Professor sign up' %>
+</div>

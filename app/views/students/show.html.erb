@@ -1,19 +1,22 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <h1>Student</h1>
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @student.name %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @student.name %>
+  </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @student.email %>
-</p>
+  <p>
+    <strong>Email:</strong>
+    <%= @student.email %>
+  </p>
+</div>
 
-<p>
-  <strong>Password digest:</strong>
-  <%= @student.password_digest %>
-</p>
-
-<%= link_to 'Edit', edit_student_path(@student) %> |
-<%= link_to 'Back', students_path %>
+<% if professor_or_current_student? %>
+  <div class="row">
+    <%= link_to 'Edit', edit_student_path(@student) %>
+    | <%= link_to 'Delete account', @student, method: :delete,
+            data: { confirm: "This will delete your account, and remove you from projects. Are you sure?" }  %>
+  </div>
+<% end %>

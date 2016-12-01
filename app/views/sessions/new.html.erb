@@ -1,4 +1,4 @@
-<h1>Login</h1>
+<h1><%= @professor_login ? "Professor" : "Student" %> Login</h1>
 
 <%= form_tag '/login' do %>
   <%= hidden_field_tag :professor_login, @professor_login %>
@@ -15,9 +15,13 @@
 
   <%= submit_tag "Submit", class: "btn btn-primary" %>
 <% end %>
-
-<% if @professor_login %>
-  <%= link_to "or sign up", new_professor_path %>
-<% else %>
-  <%= link_to "or sign up", new_student_path %>
-<% end %>
+<br>
+<div class="row">
+  <% if @professor_login %>
+    <%= link_to "Sign up", new_professor_path %>
+     | <%= link_to "Student login", login_path %>
+  <% else %>
+    <%= link_to "Sign up", new_student_path %>
+     | <%= link_to "Professor login", login_professors_path %>
+  <% end %>
+</div>

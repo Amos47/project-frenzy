@@ -1,6 +1,10 @@
-<h1>Editing Student</h1>
-
-<%= render 'form', student: @student %>
-
-<%= link_to 'Show', @student %> |
-<%= link_to 'Back', students_path %>
+<h1 class="row">Editing Student</h1>
+<div class="row">
+  <%= render 'form', student: @student %>
+</div>
+<br>
+<div class="row">
+  <%= link_to 'Cancel', @student %>
+  | <%= link_to 'Delete account', @student, method: :delete,
+          data: { confirm: "This will delete your account, and remove you from projects. Are you sure?" }  %>
+</div>

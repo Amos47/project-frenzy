@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_profile_path
 
   def authorize
-    redirect_to login_path unless current_student || current_professor
+    raise ActionController::RoutingError.new('Not Found') unless current_student || current_professor
   end
 
   def authorize_professor

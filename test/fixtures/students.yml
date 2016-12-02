@@ -3,9 +3,9 @@
 one:
   name: student 1
   email: s1@test.com
-  password_digest: random-giberish
+  password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
 
 two:
   name: student 2
   email: s2@test.com
-  password_digest: random-giberish
+  password_digest: <%= BCrypt::Password.create("password", cost: 4) %>

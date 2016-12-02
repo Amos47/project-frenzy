@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
 
   resources :students
-  resources :projects
+  resources :projects do
+    member do
+      get :take
+      get :drop
+    end
+  end
 
   root 'projects#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

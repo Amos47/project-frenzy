@@ -129,4 +129,41 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       delete project_url(@project)
     end
   end
+
+  test "should take when logged in with student" do
+    login_with(@student)
+    get take_project_url(@project)
+    assert_redirected_to @project
+  end
+
+  test "should not take when project already has student" do
+    other_student = students(:two)
+    @project.update!(student: other_student)
+    login_with(@student)
+    get take_project_url(@project)
+    assert_redirected_to @project
+    assert_equal other_student, @project.reload.student
+  end
+
+  test "should not take when professor" do
+    login_with(@professor)
+    assert_raises ActionController::RoutingError do
+      get take_project_url(@project)
+    end
+  end
+
+  test "should drop when student" do
+    login_with(@student)
+    @project.update!(student: @student)
+    get drop_project_url(@project)
+    assert_response :success
+  end
+
+  test "should not drop for other student" do
+    login_with(@student)
+    @project.update!(student: students(:two))
+    assert_404 do
+      get drop_project_url(@project)
+    end
+  end
 end

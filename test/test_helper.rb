@@ -15,4 +15,10 @@ class ActiveSupport::TestCase
       post login_url, params: { email: user.email, password: "password", professor_login: true }
     end
   end
+
+  def assert_404(&block)
+    assert_raises ActionController::RoutingError do
+      yield
+    end
+  end
 end

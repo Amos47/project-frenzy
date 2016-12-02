@@ -30,4 +30,8 @@ class ApplicationController < ActionController::Base
   def authorize_professor
     raise ActionController::RoutingError.new('Not Found') if current_professor.nil?
   end
+
+  def authorize_student
+    raise ActionController::RoutingError.new('Not Found') if current_student.nil?
+  end
 end

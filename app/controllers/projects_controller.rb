@@ -1,6 +1,8 @@
  class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :take, :drop]
   before_action :authorize, except: [:show, :index]
+  before_action :authorize_student, only: [:take, :drop]
+  before_action :authorize_student_project, only: [:drop]
   before_action :authorize_professor, only: [:new, :create, :edit, :update, :destroy]
   before_action :authorize_professor_project, only: [ :update, :destroy]
 
@@ -64,10 +66,42 @@
     end
   end
 
+  # GET /projects/1/take
+  # GET /projects/1/take.json
+  def take
+    respond_to do |format|
+      if @project.update(student: current_student)
+        format.html { redirect_to @project, notice: 'Project was successfully taken.' }
+        format.json { render :show, status: :ok, location: @project }
+      else
+        format.html { redirect_to @project }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # GET /projects/1/drop
+  # GET /projects/1/drop.json
+  def drop
+    respond_to do |format|
+      if @project.update(student: nil)
+        format.html { redirect_to @project, notice: 'Project was successfully dropped.' }
+        format.json { render :show, status: :ok, location: @project }
+      else
+        format.html { render :edit }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
     def authorize_professor_project
-      raise ActionController::RoutingError, 'Not Found' if current_professor.id.to_s != params[:id]
+      raise ActionController::RoutingError, 'Not Found' if current_professor.id != @project.professor_id
+    end
+
+    def authorize_student_project
+      raise ActionController::RoutingError, 'Not Found' if current_student.id != @project.student_id
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_project

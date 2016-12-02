@@ -1,7 +1,8 @@
  class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :authorize
-  before_action :is_authorized_professor, only: [:update, :destroy]
+  before_action :authorize, except: [:show, :index]
+  before_action :authorize_professor, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authorize_professor_project, only: [ :update, :destroy]
 
   # GET /projects
   # GET /projects.json
@@ -64,6 +65,10 @@
   end
 
   private
+
+    def authorize_professor_project
+      raise ActionController::RoutingError, 'Not Found' if current_professor.id.to_s != params[:id]
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_project
       @project = Project.find(params[:id])
@@ -71,6 +76,6 @@
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :description, :publish_at)
+      params.require(:project).permit(:title, :description, :publish_at).merge(professor_id: current_professor.id)
     end
 end

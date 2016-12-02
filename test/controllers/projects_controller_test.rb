@@ -3,6 +3,8 @@ require 'test_helper'
 class ProjectsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project = projects(:one)
+    @professor = professors(:one)
+    @student = students(:one)
   end
 
   test "should get index" do
@@ -10,17 +12,63 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
+  test "should get new when logged in as professor" do
+    login_with(@professor)
     get new_project_url
     assert_response :success
   end
 
-  test "should create project" do
+  test "should not get new when logged in as student" do
+    login_with(@student)
+    assert_raises ActionController::RoutingError do
+      get new_project_url
+    end
+  end
+
+  test "should not get new when not logged in" do
+    assert_raises ActionController::RoutingError do
+      get new_project_url
+    end
+  end
+
+  test "should create project when logged in with professor" do
+    login_with(@professor)
     assert_difference('Project.count') do
-      post projects_url, params: { project: { description: @project.description, publish_at: @project.publish_at, title: @project.title } }
+      post projects_url, params: {
+        project: {
+          description: "A really long description",
+          publish_at: Time.now.utc,
+          title: "Great title! The best title!"
+        }
+      }
     end
 
     assert_redirected_to project_url(Project.last)
+  end
+
+  test "should not create project when logged in with student" do
+    login_with(@student)
+    assert_raises ActionController::RoutingError do
+      post projects_url, params: {
+        project: {
+          description: "A really long description",
+          publish_at: Time.now.utc,
+          title: "Great title! The best title!"
+        }
+      }
+    end
+  end
+
+  test "should not create project when not logged in" do
+    assert_raises ActionController::RoutingError do
+      post projects_url, params: {
+        project: {
+          description: "A really long description",
+          publish_at: Time.now.utc,
+          title: "Great title! The best title!"
+        }
+      }
+    end
   end
 
   test "should show project" do
@@ -28,21 +76,57 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get edit" do
+  test "should get edit if professor" do
+    login_with(@professor)
     get edit_project_url(@project)
     assert_response :success
   end
 
-  test "should update project" do
-    patch project_url(@project), params: { project: { description: @project.description, publish_at: @project.publish_at, title: @project.title } }
+  test "should not get edit if student" do
+    login_with(@student)
+    assert_raises ActionController::RoutingError do
+      get edit_project_url(@project)
+    end
+  end
+
+  test "should update project if professor" do
+    login_with(@professor)
+    patch project_url(@project), params: {
+      project: {
+        description: @project.description,
+        publish_at: @project.publish_at,
+        title: @project.title
+        }
+      }
     assert_redirected_to project_url(@project)
   end
 
-  test "should destroy project" do
+  test "should not update project if student" do
+    login_with(@student)
+    assert_raises ActionController::RoutingError do
+      patch project_url(@project), params: {
+        project: {
+          description: @project.description,
+          publish_at: @project.publish_at,
+          title: @project.title
+          }
+        }
+      end
+  end
+
+  test "should destroy project if professor" do
+    login_with(@professor)
     assert_difference('Project.count', -1) do
       delete project_url(@project)
     end
 
     assert_redirected_to projects_url
+  end
+
+  test "should not destroy project if student" do
+    login_with(@student)
+    assert_raises ActionController::RoutingError do
+      delete project_url(@project)
+    end
   end
 end

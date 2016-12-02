@@ -10,9 +10,9 @@ class ActiveSupport::TestCase
   def login_with(user = nil)
     return if user.nil?
     if user.is_a?(Student)
-      session[:sudent_id] = user.id
+      post login_url, params: { email: user.email, password: "password" }
     else
-      session[:professor_id] = user.id
+      post login_url, params: { email: user.email, password: "password", professor_login: true }
     end
   end
 end

@@ -60,14 +60,14 @@ class ProfessorsController < ApplicationController
     @professor.destroy
     session[:professor_id] = nil
     respond_to do |format|
-      format.html { redirect_to professors_url, notice: 'Professor was successfully destroyed.' }
+      format.html { redirect_to login_url, notice: 'Professor was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
     def authorize_current_professor
-      raise ActionController::RoutingError('Not Found') unless params[:id] == current_professor.id
+      raise ActionController::RoutingError.new('Not Found') unless params[:id] == current_professor.id.to_s
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_professor

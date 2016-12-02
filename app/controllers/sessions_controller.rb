@@ -18,13 +18,13 @@ class SessionsController < ApplicationController
       end
       redirect_to '/'
     else
-      redirect_to '/login'
+      redirect_to login_path
     end
   end
 
   def destroy
     session[:student_id] = nil
     session[:professor_id] = nil
-    redirect_to '/login'
+    redirect_to login_path
   end
 end

@@ -4,7 +4,7 @@
   before_action :authorize_student, only: [:take, :drop]
   before_action :authorize_student_project, only: [:drop]
   before_action :authorize_professor, only: [:new, :create, :edit, :update, :destroy]
-  before_action :authorize_professor_project, only: [ :update, :destroy]
+  before_action :authorize_professor_project, only: [ :edit, :update, :destroy]
 
   # GET /projects
   # GET /projects.json

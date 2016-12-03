@@ -8,7 +8,7 @@
       <th>Title</th>
       <th>Description</th>
       <th>Atrributed</th>
-      <% if current_professor.nil? %>
+      <% if current_professor.present? %>
         <th colspan="3"></th>
       <% else %>
         <th clospan="1"></th>
@@ -23,7 +23,7 @@
         <td><%= project.description %></td>
         <td><%= project.student.try(:name) || "Unattributed" %></td>
         <td><%= link_to 'Show', project %></td>
-        <% if current_professor.present? %>
+        <% if current_professor.present? && current_professor.id == project.professor_id %>
           <td><%= link_to 'Edit', edit_project_path(project) %></td>
           <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>

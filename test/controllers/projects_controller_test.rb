@@ -156,7 +156,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     login_with(@student)
     @project.update!(student: @student)
     get drop_project_url(@project)
-    assert_response :success
+    assert_redirected_to @project
   end
 
   test "should not drop for other student" do

@@ -74,7 +74,7 @@
         format.html { redirect_to @project, notice: 'Project was successfully taken.' }
         format.json { render :show, status: :ok, location: @project }
       else
-        format.html { redirect_to @project }
+        format.html { redirect_to @project, flash: { error: @project.errors.full_messages.join("<br/>") } }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -88,7 +88,7 @@
         format.html { redirect_to @project, notice: 'Project was successfully dropped.' }
         format.json { render :show, status: :ok, location: @project }
       else
-        format.html { render :edit }
+        format.html { redirect_to @project, flash: { error: @project.errors.full_messages.join("<br/>") } }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end

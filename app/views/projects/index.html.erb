@@ -7,8 +7,12 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
-      <th>Publish at</th>
-      <th colspan="3"></th>
+      <th>Atrributed</th>
+      <% if current_professor.nil? %>
+        <th colspan="3"></th>
+      <% else %>
+        <th clospan="1"></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -17,15 +21,18 @@
       <tr>
         <td><%= project.title %></td>
         <td><%= project.description %></td>
-        <td><%= project.publish_at %></td>
+        <td><%= project.student.try(:name) || "Unattributed" %></td>
         <td><%= link_to 'Show', project %></td>
-        <td><%= link_to 'Edit', edit_project_path(project) %></td>
-        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if current_professor.present? %>
+          <td><%= link_to 'Edit', edit_project_path(project) %></td>
+          <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Project', new_project_path %>
+<% if current_professor.present? %>
+  <%= link_to 'New Project', new_project_path %>
+<% end %>

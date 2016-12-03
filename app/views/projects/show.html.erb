@@ -1,4 +1,8 @@
+<br/>
 <p id="notice"><%= notice %></p>
+<p class="text-danger">
+  <%= flash[:error] %>
+</p>
 
 <div class="card">
   <div class="card-header">
@@ -14,8 +18,21 @@
       <strong>Available at:</strong>
       <%= @project.publish_at %>
     </p>
+
+    <p>
+      <strong>Attributed to: </strong>
+      <%= @project.student.try(:name) || "Unattributed" %>
+    </p>
   </div>
 </div>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
+<% if current_student.present? %>
+  <% if @project.student_id.nil? && current_student.project.nil? %>
+    <%= link_to 'Take Project', take_project_path(@project) %> |
+  <% elsif @project.student_id == current_student.id %>
+    <%= link_to 'Drop Project', drop_project_path(@project) %> |
+  <% end %>
+<% elsif current_professor.present? %>
+  <%= link_to 'Edit', edit_project_path(@project) %> |
+<% end %>
 <%= link_to 'Back', projects_path %>

@@ -1,0 +1,5 @@
+before_script:
+  - "bundle exec rake db:test:prepare"
+script: "bundle exec rake"
+rvm:
+  - 2.3.3

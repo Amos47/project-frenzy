@@ -6,7 +6,8 @@ This app is mainly about learning how the cucumber test environment works, and e
 The basic functionality is that professors can sign up and create projects,
 and students can sign up and be attributed on projects.
 
-Can be found on github here: https://github.com/Amos47/project-frenzy
+Can be found on Github here: https://github.com/Amos47/project-frenzy
+Can be found deployed on heroku here: https://project-frenzy.herokuapp.com/
 
 ## Some implementation choices
   - I decided to put the content of the user login at the top right as it's more common. Can't imagine that is a problem.

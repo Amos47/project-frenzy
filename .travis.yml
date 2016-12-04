@@ -1,5 +1,6 @@
 before_script:
   - "bundle exec rake db:migrate"
 script: "bundle exec rake"
+notifications: never
 rvm:
   - 2.3.3

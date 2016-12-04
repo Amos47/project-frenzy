@@ -1,4 +1,5 @@
 # Project Frenzy
+[![Build Status](https://travis-ci.com/Amos47/project-frenzy.svg?token=3yxKrCazqWzyrxBhHXRA&branch=master)](https://travis-ci.com/Amos47/project-frenzy)
 
 This app is mainly about learning how the cucumber test environment works, and exploring testing more in general.
 

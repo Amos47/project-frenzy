@@ -36,9 +36,11 @@ Can be found deployed on heroku here: https://project-frenzy.herokuapp.com/
 ### Download the project
   - Download from the github repo either through a clone or as a zip.
   - You will need to run `bundle install`, you can speed up the process with multiple threads `bundle install --jobs 7`.
+  - There might be an issue with postgresql if it's not installed, but you can get around this with `bundle install ----without production`
 
 ### Database creation
   - This uses a sqlite3 database, so there should be no need for an external database service to be running
+  - It does use postgresql in production
   - To create the database run `rake db:migrate`
 
 ### Database initialization

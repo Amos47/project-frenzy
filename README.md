@@ -56,6 +56,6 @@ There are really two sets of test suites:
 
 - The the larger rails controller tests that I used to TDD the app. Run with `rake test`.
   - The files are mostly in `test/controllers`
-- There is also the cucumber test suite. Run with `rake cucumber`
+- There is also the cucumber test suite. Run with `bundle exec cucumber`.
   - You can find the files in `features` and `features/step_definitions`
 - You can run all the tests in both suites with the command `rake`.
